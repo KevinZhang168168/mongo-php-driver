@@ -439,52 +439,6 @@ tasks:
                genhtml --version || true
                valgrind --version || true
 
-# Release Engineering Matrix {{{
-    - name: make-release-archive
-      tags: ["releng"]
-      commands:
-        - func: "exec script"
-          vars:
-            file: ".evergreen/make-release.sh"
-        - func: "upload release"
-        - func: "upload build"
-
-    - name: make-docs
-      tags: ["releng"]
-      commands:
-        - func: "exec script"
-          vars:
-            file: ".evergreen/make-docs.sh"
-        - func: "upload docs"
-
-    - name: release-compile
-      tags: ["releng"]
-      depends_on:
-        - name: "make-release-archive"
-          variant: "releng-release-archive-creator"
-      commands:
-        # Fetch the make-release-archive generated archive, rather then the git clone
-        - func: "fetch build"
-        - func: "exec script"
-          vars:
-            file: ".evergreen/compile.sh"
-        - func: "upload build"
-
-    - name: release-compile-cmake
-      tags: ["releng"]
-      depends_on:
-        - name: "make-release-archive"
-          variant: "releng-release-archive-creator"
-      commands:
-        # Fetch the make-release-archive generated archive, rather then the git clone
-        - func: "fetch build"
-        - func: "exec compile script"
-          vars:
-            file: ".evergreen/compile.sh"
-            buildtool: "cmake"
-        - func: "upload build"
-# }}}
-
 
 # Standard test tasks {{{
 
@@ -622,6 +576,7 @@ tasks:
             VERSION: "3.4"
             TOPOLOGY: "sharded_cluster"
         - func: "run tests"
+
     - name: "test-3.6-standalone"
       tags: ["3.6", "standalone"]
       commands:
@@ -646,6 +601,36 @@ tasks:
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "3.6"
+            TOPOLOGY: "sharded_cluster"
+        - func: "run tests"
+
+    - name: "test-4.0-standalone"
+      tags: ["4.0", "standalone"]
+      commands:
+        - func: "exec script"
+          vars:
+            file: "compile-unix.sh"
+        - func: "bootstrap mongo-orchestration"
+          vars:
+            VERSION: "4.0"
+            TOPOLOGY: "server"
+        - func: "run tests"
+
+    - name: "test-4.0-replica_set"
+      tags: ["4.0", "replica_set"]
+      commands:
+        - func: "bootstrap mongo-orchestration"
+          vars:
+            VERSION: "4.0"
+            TOPOLOGY: "replica_set"
+        - func: "run tests"
+
+    - name: "test-4.0-sharded_cluster"
+      tags: ["4.0", "sharded_cluster"]
+      commands:
+        - func: "bootstrap mongo-orchestration"
+          vars:
+            VERSION: "4.0"
             TOPOLOGY: "sharded_cluster"
         - func: "run tests"
 
@@ -687,135 +672,22 @@ axes:
         display_name: "latest"
         variables:
            VERSION: "latest"
+      - id: "4.0"
+        display_name: "4.0"
+        variables:
+           VERSION: "4.0"
       - id: "3.6"
         display_name: "3.6"
         variables:
            VERSION: "3.6"
-      - id: "3.4"
-        display_name: "3.4"
+
+  - id: php-versions
+    display_name: PHP Version
+    values:
+      - id: "7.2"
+        display_name: "PHP 7.2"
         variables:
-           VERSION: "3.4"
-      - id: "3.2"
-        display_name: "3.2"
-        variables:
-           VERSION: "3.2"
-      - id: "3.0"
-        display_name: "3.0"
-        variables:
-           VERSION: "3.0"
-      - id: "2.6"
-        display_name: "2.6"
-        variables:
-           VERSION: "2.6"
-      - id: "2.4"
-        display_name: "2.4"
-        variables:
-           VERSION: "2.4"
-
-
-  # OSes that support versions of MongoDB>=2.4 with SSL.
-  - id: os-fully-featured
-    display_name: OS
-    values:
-
-      - id: linux-64-amzn-test
-        display_name: "Amazon Linux (Enterprise)"
-        run_on: linux-64-amzn-test
-
-  # OSes that support versions of MongoDB without SSL.
-  - id: os-nossl
-    display_name: OS
-    values:
-      - id: archlinux-test
-        display_name: "Archlinux"
-        run_on: archlinux-test
-
-      - id: macos-1012
-        display_name: "macOS 10.12"
-        run_on: macos-1012
-
-  - id: os-windows
-    display_name: OS
-    values:
-      - id: windows-64-vs2010-test
-        display_name: "Windows (VS2010)"
-        run_on: windows-64-vs2010-test
-
-      - id: windows-64-vs2013-test
-        display_name: "Windows (VS2013)"
-        run_on: windows-64-vs2013-test
-
-      - id: windows-64-vs2015-test
-        display_name: "Windows (VS2015)"
-        run_on: windows-64-vs2015-test
-
-  # OSes that support versions of MongoDB>=2.6 with SSL.
-  - id: os-requires-26
-    display_name: OS
-    values:
-      - id: ubuntu-14.04
-        display_name: "Ubuntu 14.04"
-        run_on: ubuntu1404-test
-
-      - id: rhel70
-        display_name: "RHEL 7.0"
-        run_on: rhel70-small
-
-      - id: debian71-test
-        display_name: "Debian 7.1"
-        run_on: debian71-test
-
-  # OSes that support versions of MongoDB>=3.2 with SSL.
-  - id: os-requires-32
-    display_name: OS
-    values:
-      - id: suse12-x86-64-test
-        display_name: "SUSE 12 (x86_64)"
-        run_on: suse12-test
-
-      - id: ubuntu-16.04
-        display_name: "Ubuntu 16.04"
-        run_on: ubuntu1604-test
-
-      - id: rhel71-power8-test
-        display_name: "RHEL 7.1 (POWER8)"
-        run_on: rhel71-power8-test
-
-  # OSes that introduced support for SSL with MongoDB>=3.2.
-  - id: os-ssl-requires-32
-    display_name: OS
-    values:
-      - id: macos-1012
-        display_name: "macOS 10.12"
-        run_on: macos-1012
-
-  # OSes that support versions of MongoDB>=3.4 with SSL.
-  - id: os-requires-34
-    display_name: OS
-    values:
-      - id: debian81-test
-        display_name: "Debian 8.1"
-        run_on: debian81-test
-
-      - id: rhel72-zseries-test
-        display_name: "RHEL 7.2 (zSeries)"
-        run_on: rhel72-zseries-test
-
-      - id: suse12-zseries-test
-        display_name: "SUSE 12 (zSeries)"
-        run_on: suse12-zseries-test
-
-      - id: ubuntu1604-arm64-small
-        display_name: "Ubuntu 16.04 (ARM64)"
-        run_on: ubuntu1604-arm64-small
-
-      - id: ubuntu1604-power8-test
-        display_name: "Ubuntu 16.04 (POWER8)"
-        run_on: ubuntu1604-power8-test
-
-      - id: ubuntu1604-zseries-small
-        display_name: "Ubuntu 16.04 (zSeries)"
-        run_on: ubuntu1604-zseries-small
+          PHP_VERSION: "7.2"
 
   # OSes that support versions of MongoDB>=4.0 with SSL.
   - id: os-requires-40
@@ -840,6 +712,7 @@ axes:
         display_name: Sharded Cluster
         variables:
            TOPOLOGY: "sharded_cluster"
+
   - id: auth
     display_name: Authentication
     values:
@@ -851,6 +724,7 @@ axes:
         display_name: NoAuth
         variables:
            AUTH: "noauth"
+
   - id: ssl
     display_name: SSL
     values:
@@ -862,6 +736,7 @@ axes:
         display_name: NoSSL
         variables:
            SSL: "nossl"
+
   - id: storage-engine
     display_name: Storage
     values:
@@ -889,210 +764,10 @@ buildvariants:
   tasks:
     - ".releng" # Run all tasks with the "releng" tag
 
-
-- matrix_name: "tests-all"
-  matrix_spec: {"os-fully-featured": "*", auth: "*", ssl: "*" }
-  display_name: "${os-fully-featured} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-     - name: "test-3.2-replica_set"
-     - name: "test-3.2-sharded_cluster"
-     - name: "test-3.2-standalone"
-     - name: "test-3.0-replica_set"
-     - name: "test-3.0-sharded_cluster"
-     - name: "test-3.0-standalone"
-     - name: "test-2.6-replica_set"
-     - name: "test-2.6-sharded_cluster"
-     - name: "test-2.6-standalone"
-     - name: "test-2.4-replica_set"
-     - name: "test-2.4-sharded_cluster"
-     - name: "test-2.4-standalone"
-
-- matrix_name: "tests-nossl"
-  matrix_spec: {"os-nossl": "*", auth: "*", ssl: "nossl" }
-  display_name: "${os-nossl} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-     - name: "test-3.2-replica_set"
-     - name: "test-3.2-sharded_cluster"
-     - name: "test-3.2-standalone"
-     - name: "test-3.0-replica_set"
-     - name: "test-3.0-sharded_cluster"
-     - name: "test-3.0-standalone"
-     - name: "test-2.6-replica_set"
-     - name: "test-2.6-sharded_cluster"
-     - name: "test-2.6-standalone"
-     - name: "test-2.4-replica_set"
-     - name: "test-2.4-sharded_cluster"
-     - name: "test-2.4-standalone"
-
-- matrix_name: "tests-os-requires-26"
-  matrix_spec: {"os-requires-26": "*", auth: "*", ssl: "*" }
-  display_name: "${os-requires-26} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-     - name: "test-3.2-replica_set"
-     - name: "test-3.2-sharded_cluster"
-     - name: "test-3.2-standalone"
-     - name: "test-3.0-replica_set"
-     - name: "test-3.0-sharded_cluster"
-     - name: "test-3.0-standalone"
-     - name: "test-2.6-replica_set"
-     - name: "test-2.6-sharded_cluster"
-     - name: "test-2.6-standalone"
-
-- matrix_name: "tests-os-requires-32"
-  matrix_spec: {"os-requires-32": "*", auth: "*", ssl: "*" }
-  display_name: "${os-requires-32} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-     - name: "test-3.2-replica_set"
-     - name: "test-3.2-sharded_cluster"
-     - name: "test-3.2-standalone"
-
-- matrix_name: "tests-ssl-requires-32"
-  matrix_spec: {"os-ssl-requires-32": "*", auth: "*", ssl: "ssl" }
-  display_name: "${os-ssl-requires-32} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-     - name: "test-3.2-replica_set"
-     - name: "test-3.2-sharded_cluster"
-     - name: "test-3.2-standalone"
-
-- matrix_name: "tests-os-requires-34"
-  matrix_spec: {"os-requires-34": "*", auth: "*", ssl: "*" }
-  display_name: "${os-requires-34} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-
 - matrix_name: "tests-os-requires-40"
   matrix_spec: {"os-requires-40": "*", auth: "*", ssl: "*" }
-  display_name: "${os-requires-40} ${auth} ${ssl}"
+  display_name: "${php-versions} ${os-requires-40} ${auth} ${ssl}"
   tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-
-# Storage Engine Tests on Amazon Linux (Enterprise)
-- matrix_name: "tests-storage-engines"
-  matrix_spec: {"os-fully-featured": "linux-64-amzn-test", storage-engine: "*" }
-  display_name: "${os-fully-featured} ${storage-engine}"
-  rules:
-    - if:
-        os-fully-featured: "*"
-        storage-engine: ["mmapv1", "inmemory"]
-      then:
-        add_tasks:
-          - "test-latest-standalone"
-          - "test-3.6-standalone"
-          - "test-3.4-standalone"
-          - "test-3.2-standalone"
-    - if:
-        os-fully-featured: "*"
-        storage-engine: "wiredtiger"
-      then:
-        add_tasks:
-          - "test-3.0-standalone"
-
-- matrix_name: "tests-windows"
-  matrix_spec: {os-windows: "*", auth: "*", ssl: "*" }
-  display_name: "${os-windows} ${auth} ${ssl}"
-  tasks:
-     - name: "test-latest-replica_set"
-     - name: "test-latest-sharded_cluster"
-     - name: "test-latest-standalone"
-     - name: "test-3.6-replica_set"
-     - name: "test-3.6-sharded_cluster"
-     - name: "test-3.6-standalone"
-     - name: "test-3.4-replica_set"
-     - name: "test-3.4-sharded_cluster"
-     - name: "test-3.4-standalone"
-     - name: "test-3.2-replica_set"
-     - name: "test-3.2-sharded_cluster"
-     - name: "test-3.2-standalone"
-     - name: "test-3.0-replica_set"
-     - name: "test-3.0-sharded_cluster"
-     - name: "test-3.0-standalone"
-     - name: "test-2.6-replica_set"
-     - name: "test-2.6-sharded_cluster"
-     - name: "test-2.6-standalone"
-  rules:
-     # Windows MongoDB 2.4 does not support SSL.
-     - if:
-         os-windows: "*"
-         auth: "*"
-         ssl: "nossl"
-       then:
-         add_tasks:
-           - name: "test-2.4-replica_set"
-           - name: "test-2.4-sharded_cluster"
-           - name: "test-2.4-standalone"
-
-      # Platform notes
-      # i386 builds of OpenSSL or Cyrus SASL are not available
-      # Ubuntu14.04 only supports 2.6+ with SSL
-      # Ubuntu16.04 ppc64le is only supported by MongoDB 3.4+
-      # Ubuntu16.04 aarch64 is only supported by MongoDB 3.4+
-      # Ubuntu16.04 s390x is only supported by MongoDB 3.4+
-      # Ubuntu16.04 (x86) only supports MongoDB 3.2+
-      # Debian 8.1 only supports MongoDB 3.4+
-      # SUSE12 s390x is only supported by MongoDB 3.4+
-      # No enterprise build for Archlinux, SSL not available
-      # RHEL 7 only supports 2.6+
-      # RHEL 7.1 ppc64le is only supported by MongoDB 3.2+
-      # RHEL 7.2 s390x is only supported by MongoDB 3.4+
-      # Solaris MongoDB SSL builds are not available
-      # Darwin MongoDB SSL builds are not available for 2.4 and 2.6
-      # Windows does not support MongoDB 2.4 with SSL
-      # Debian 7.1 does not support MongoDB 2.4
-      # SUSE12 x86_64 is only supported by MongoDB 3.2+
-      # vim: set et sw=2 ts=2 :
-
+     - name: "test-4.0-replica_set"
+     - name: "test-4.0-sharded_cluster"
+     - name: "test-4.0-standalone"

@@ -61,7 +61,11 @@ esac
 echo "MARCH: $MARCH"
 echo "RELEASE: $RELEASE"
 echo "OS: $OS"
+echo "PHP_VERSION: $PHP_VERSION"
 
+PATH=/opt/php/{$PHP_VERSION}/bin:$PATH
+echo $PATH
 
-#./configure
+phpize
+./configure --enable-mongodb-developer-flags
 make
