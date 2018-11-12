@@ -609,7 +609,7 @@ tasks:
       commands:
         - func: "exec script"
           vars:
-            file: "compile-unix.sh"
+            file: ".evergreen/compile-unix.sh"
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "4.0"
@@ -619,6 +619,9 @@ tasks:
     - name: "test-4.0-replica_set"
       tags: ["4.0", "replica_set"]
       commands:
+        - func: "exec script"
+          vars:
+            file: ".evergreen/compile-unix.sh"
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "4.0"
@@ -628,6 +631,9 @@ tasks:
     - name: "test-4.0-sharded_cluster"
       tags: ["4.0", "sharded_cluster"]
       commands:
+        - func: "exec script"
+          vars:
+            file: ".evergreen/compile-unix.sh"
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "4.0"
