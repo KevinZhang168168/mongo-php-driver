@@ -162,6 +162,15 @@ functions:
           ${PREPARE_SHELL}
           [ -f ${PROJECT_DIRECTORY}/${file} ] && BUILDTOOL="${buildtool}" sh ${PROJECT_DIRECTORY}/${file} || echo "${PROJECT_DIRECTORY}/${file} not available, skipping"
 
+  "compile driver" :
+    - command: shell.exec
+      type: test
+      params:
+        working_dir: "src"
+        script: |
+          ${PREPARE_SHELL}
+          PHP_VERSION=${PHP_VERSION} sh ${PROJECT_DIRECTORY}/.evergreen/compile-unix.sh
+
   "exec script" :
     - command: shell.exec
       type: test
@@ -607,9 +616,7 @@ tasks:
     - name: "test-4.0-standalone"
       tags: ["4.0", "standalone"]
       commands:
-        - func: "exec script"
-          vars:
-            file: ".evergreen/compile-unix.sh"
+        - func: "compile driver"
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "4.0"
@@ -619,9 +626,7 @@ tasks:
     - name: "test-4.0-replica_set"
       tags: ["4.0", "replica_set"]
       commands:
-        - func: "exec script"
-          vars:
-            file: ".evergreen/compile-unix.sh"
+        - func: "compile driver"
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "4.0"
@@ -631,9 +636,7 @@ tasks:
     - name: "test-4.0-sharded_cluster"
       tags: ["4.0", "sharded_cluster"]
       commands:
-        - func: "exec script"
-          vars:
-            file: ".evergreen/compile-unix.sh"
+        - func: "compile driver"
         - func: "bootstrap mongo-orchestration"
           vars:
             VERSION: "4.0"

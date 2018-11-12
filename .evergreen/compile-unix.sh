@@ -63,7 +63,7 @@ echo "RELEASE: $RELEASE"
 echo "OS: $OS"
 echo "PHP_VERSION: $PHP_VERSION"
 
-PATH=/opt/php/{$PHP_VERSION}/bin:$PATH
+PATH=/opt/php/${PHP_VERSION}/bin:$PATH
 echo $PATH
 
 phpize
