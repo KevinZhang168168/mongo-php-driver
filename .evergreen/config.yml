@@ -757,7 +757,7 @@ axes:
 buildvariants:
 
 - matrix_name: "tests-os-requires-40"
-  matrix_spec: {"os-requires-40": "*", auth: "*", ssl: "*" }
+  matrix_spec: {"os-requires-40": "*", auth: "*", ssl: "*", "php-versions": "*" }
   display_name: "${php-versions} ${os-requires-40} ${auth} ${ssl}"
   tasks:
      - name: "test-4.0-replica_set"
