@@ -696,7 +696,7 @@ axes:
       - id: "7.2"
         display_name: "PHP 7.2"
         variables:
-          PHP_VERSION: "7.2"
+          PHP_VERSION: "7.2.10"
 
   # OSes that support versions of MongoDB>=4.0 with SSL.
   - id: os-requires-40

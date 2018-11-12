@@ -63,8 +63,11 @@ echo "RELEASE: $RELEASE"
 echo "OS: $OS"
 echo "PHP_VERSION: $PHP_VERSION"
 
-PATH=/opt/php/${PHP_VERSION}/bin:$PATH
+OLD_PATH=$PATH
+PATH=/opt/php/${PHP_VERSION}-64bit/bin:$OLD_PATH
 echo $PATH
+
+find /opt/php | grep phpize
 
 phpize
 ./configure --enable-mongodb-developer-flags
