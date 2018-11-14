@@ -31,16 +31,8 @@ echo "Running $AUTH tests over $SSL, connecting to $MONGODB_URI"
 
 # Run the tests, and store the results in a Evergreen compatible JSON results file
 case "$OS" in
-   cygwin*)
-      make test
-      ;;
-
-   sunos)
-      gmake -o test-libmongoc test TEST_ARGS="--no-fork -d -F test-results.json"
-      ;;
-
    *)
-      make -o test-libmongoc test TEST_ARGS="--no-fork -d -F test-results.json"
+      TEST_PHP_ARGS="-q -x --show-diff -g FAIL,XFAIL,BORK,WARN,LEAK,SKIP" make test
       ;;
 esac
 
