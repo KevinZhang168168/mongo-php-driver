@@ -1,6 +1,6 @@
 {
     "id" : "STANDALONE",
-    "name": "mongod-maybe-pick-something-else",
+    "name": "mongod",
     "procParams": {
         "ipv6": true,
         "journal": true,
