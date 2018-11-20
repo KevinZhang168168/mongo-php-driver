@@ -44,7 +44,7 @@ export ORCHESTRATION_FILE="$PROJECT_DIRECTORY/scripts/presets/travis/${TOPOLOGY}
 export ORCHESTRATION_URL="http://localhost:8889/v1/${TOPOLOGY}s"
 
 # Start mongo-orchestration
-sh ${DRIVERS_TOOLS}/start-orchestration.sh "$MONGO_ORCHESTRATION_HOME"
+sh ${DRIVERS_TOOLS}/.evergreen/start-orchestration.sh "$MONGO_ORCHESTRATION_HOME"
 
 pwd
 curl --silent --show-error --data @"$ORCHESTRATION_FILE" "$ORCHESTRATION_URL" --max-time 600 --fail -o tmp.json
