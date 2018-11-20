@@ -4,7 +4,6 @@
     "members": [
         {
             "procParams": {
-                "dbpath": "/tmp/REPLICASET/3000/",
                 "ipv6": true,
                 "logappend": true,
                 "logpath": "/tmp/MO/REPLICASET/3000/mongod.log",

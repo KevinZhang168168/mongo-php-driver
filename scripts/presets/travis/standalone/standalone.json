@@ -2,7 +2,6 @@
     "id" : "STANDALONE",
     "name": "mongod",
     "procParams": {
-        "dbpath": "/tmp/STANDALONE/2000",
         "ipv6": true,
         "logappend": true,
         "logpath": "/tmp/MO/STANDALONE/2000/mongod.log",
