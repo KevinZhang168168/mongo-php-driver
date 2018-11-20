@@ -33,6 +33,7 @@ export ORCHESTRATION_URL="http://localhost:8889/v1/${TOPOLOGY}"
 sh ${PROJECT_DIRECTORY}/.evergreen/start-orchestration.sh "$MONGO_ORCHESTRATION_HOME"
 
 pwd
+cat "$ORCHESTRATION_FILE"
 curl --silent --show-error --data @"$ORCHESTRATION_FILE" "$ORCHESTRATION_URL" --max-time 600 --fail -o tmp.json
 cat tmp.json
 URI=$(python -c 'import sys, json; j=json.load(open("tmp.json")); print(j["mongodb_auth_uri" if "mongodb_auth_uri" in j else "mongodb_uri"])' | tr -d '\r')
