@@ -27,7 +27,7 @@ DL_END=$(date +%s)
 MO_START=$(date +%s)
 
 export ORCHESTRATION_FILE="$PROJECT_DIRECTORY/scripts/presets/travis/${TOPOLOGY}/${CONFIG}.json"
-export ORCHESTRATION_URL="http://localhost:8889/v1/${TOPOLOGY}s"
+export ORCHESTRATION_URL="http://localhost:8889/v1/${TOPOLOGY}"
 
 # Start mongo-orchestration
 sh ${DRIVERS_TOOLS}/.evergreen/start-orchestration.sh "$MONGO_ORCHESTRATION_HOME"

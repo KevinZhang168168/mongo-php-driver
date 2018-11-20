@@ -463,7 +463,7 @@ tasks:
         - func: "compile driver"
         - func: "bootstrap mongo-orchestration"
           vars:
-            TOPOLOGY: "standalone"
+            TOPOLOGY: "servers"
             CONFIG: "standalone"
         - func: "run tests"
 
