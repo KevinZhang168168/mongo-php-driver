@@ -464,7 +464,7 @@ tasks:
         - func: "bootstrap mongo-orchestration"
           vars:
             TOPOLOGY: "standalone"
-            CONFIG: "standalone.json"
+            CONFIG: "standalone"
         - func: "run tests"
 
     - name: "test-replicaset"
@@ -474,7 +474,7 @@ tasks:
         - func: "bootstrap mongo-orchestration"
           vars:
             TOPOLOGY: "replica_sets"
-            CONFIG: "replicaset.json"
+            CONFIG: "replicaset"
         - func: "run tests"
 
     - name: "test-sharded"
@@ -484,7 +484,7 @@ tasks:
         - func: "bootstrap mongo-orchestration"
           vars:
             TOPOLOGY: "sharded_clusters"
-            CONFIG: "cluster.json"
+            CONFIG: "cluster"
         - func: "run tests"
 
 # }}}
