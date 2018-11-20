@@ -26,8 +26,13 @@ download_and_extract "$MONGODB_DOWNLOAD_URL" "$EXTRACT"
 DL_END=$(date +%s)
 MO_START=$(date +%s)
 
+END_POINT=${TOPOLOGY}
+if [ "standalone" = "${TOPOLOGY}" ]; then
+    END_POINT="servers"
+fi
+
 export ORCHESTRATION_FILE="$PROJECT_DIRECTORY/scripts/presets/travis/${TOPOLOGY}/${CONFIG}.json"
-export ORCHESTRATION_URL="http://localhost:8889/v1/${TOPOLOGY}"
+export ORCHESTRATION_URL="http://localhost:8889/v1/${END_POINT}"
 
 # Start mongo-orchestration
 sh ${PROJECT_DIRECTORY}/.evergreen/start-orchestration.sh "$MONGO_ORCHESTRATION_HOME"
