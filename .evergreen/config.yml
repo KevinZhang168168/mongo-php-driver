@@ -279,6 +279,21 @@ functions:
         permissions: public-read
         content_type: ${content_type|text/plain}
         display_name: "orchestration.log"
+    - command: shell.exec
+      params:
+        script: |
+          ${PREPARE_SHELL}
+          find /tmp/MO -name \*.log | xargs tar czf mongodb-start-logs.tar.gz
+    - command: s3.put
+      params:
+        aws_key: ${aws_key}
+        aws_secret: ${aws_secret}
+        local_file: mongodb-start-logs.tar.gz
+        remote_file: ${UPLOAD_BUCKET}/${build_variant}/${revision}/${version_id}/${build_id}/logs/${task_id}-${execution}-mongodb-start-logs.tar.gz
+        bucket: mciuploads
+        permissions: public-read
+        content_type: ${content_type|application/x-gzip}
+        display_name: "mongodb-start-logs.tar.gz"
 
   "upload working dir":
     - command: archive.targz_pack

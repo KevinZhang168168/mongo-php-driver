@@ -7,7 +7,7 @@
                 "dbpath": "/tmp/REPLICASET/3000/",
                 "ipv6": true,
                 "logappend": true,
-                "logpath": "/tmp/REPLICASET/3000/mongod.log",
+                "logpath": "/tmp/MO/REPLICASET/3000/mongod.log",
                 "journal": true,
                 "nssize": 1,
                 "port": 3000,
