@@ -12,7 +12,7 @@ MONGODB_VERSION=${MONGODB_VERSION:-latest}
 DL_START=$(date +%s)
 DIR=$(dirname $0)
 # Functions to fetch MongoDB binaries
-. ${DRIVER_TOOLS}/.evergreen/download-mongodb.sh
+. ${DRIVERS_TOOLS}/.evergreen/download-mongodb.sh
 
 get_distro
 if [ -z "$MONGODB_DOWNLOAD_URL" ]; then
