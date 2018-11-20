@@ -473,7 +473,7 @@ tasks:
         - func: "compile driver"
         - func: "bootstrap mongo-orchestration"
           vars:
-            TOPOLOGY: "replica_set"
+            TOPOLOGY: "replica_sets"
             CONFIG: "replicaset.json"
         - func: "run tests"
 
@@ -483,7 +483,7 @@ tasks:
         - func: "compile driver"
         - func: "bootstrap mongo-orchestration"
           vars:
-            TOPOLOGY: "sharded_cluster"
+            TOPOLOGY: "sharded_clusters"
             CONFIG: "cluster.json"
         - func: "run tests"
 

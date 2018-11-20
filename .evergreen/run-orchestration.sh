@@ -26,21 +26,7 @@ download_and_extract "$MONGODB_DOWNLOAD_URL" "$EXTRACT"
 DL_END=$(date +%s)
 MO_START=$(date +%s)
 
-ORCHESTRATION_FILE="basic"
-if [ "$AUTH" = "auth" ]; then
-  ORCHESTRATION_FILE="auth"
-fi
-
-if [ "$SSL" != "nossl" ]; then
-   ORCHESTRATION_FILE="${ORCHESTRATION_FILE}-ssl"
-fi
-
-# Storage engine config files do not exist for different topology, auth, or ssl modes.
-if [ ! -z "$STORAGE_ENGINE" ]; then
-  ORCHESTRATION_FILE="$STORAGE_ENGINE"
-fi
-
-export ORCHESTRATION_FILE="$PROJECT_DIRECTORY/scripts/presets/travis/${TOPOLOGY}s/${ORCHESTRATION_FILE}.json"
+export ORCHESTRATION_FILE="$PROJECT_DIRECTORY/scripts/presets/travis/${TOPOLOGY}/${CONFIG}.json"
 export ORCHESTRATION_URL="http://localhost:8889/v1/${TOPOLOGY}s"
 
 # Start mongo-orchestration
