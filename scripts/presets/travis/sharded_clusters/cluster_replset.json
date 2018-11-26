@@ -3,8 +3,7 @@
         "members" : [
             {
                 "procParams": {
-                    "dbpath": "/tmp/SHARDED-RS/CFG/4490",
-                    "logpath": "/tmp/SHARDED-RS/CFG/4490/mongod.log",
+                    "logpath": "/tmp/MO/SHARDED-RS/CFG/4490/mongod.log",
                     "ipv6": true,
                     "journal": true,
                     "logappend": true,
@@ -14,8 +13,7 @@
             },
             {
                 "procParams": {
-                    "dbpath": "/tmp/SHARDED-RS/CFG/4491",
-                    "logpath": "/tmp/SHARDED-RS/CFG/4491/mongod.log",
+                    "logpath": "/tmp/MO/SHARDED-RS/CFG/4491/mongod.log",
                     "ipv6": true,
                     "journal": true,
                     "logappend": true,
@@ -25,8 +23,7 @@
             },
             {
                 "procParams": {
-                    "dbpath": "/tmp/SHARDED-RS/CFG/4492",
-                    "logpath": "/tmp/SHARDED-RS/CFG/4492/mongod.log",
+                    "logpath": "/tmp/MO/SHARDED-RS/CFG/4492/mongod.log",
                     "ipv6": true,
                     "journal": true,
                     "logappend": true,
@@ -44,8 +41,7 @@
                 "id": "sh01-rs",
                 "members": [
                     { "procParams": {
-                        "dbpath": "/tmp/SHARDED-RS/SHARD1/4400",
-                        "logpath": "/tmp/SHARDED-RS/SHARD1/4400/mongod.log",
+                        "logpath": "/tmp/MO/SHARDED-RS/SHARD1/4400/mongod.log",
                         "ipv6": true,
                         "journal": true,
                         "logappend": true,
@@ -53,8 +49,7 @@
                         "bind_ip_all": true
                     } },
                     { "procParams": {
-                        "dbpath": "/tmp/SHARDED-RS/SHARD1/4401",
-                        "logpath": "/tmp/SHARDED-RS/SHARD1/4401/mongod.log",
+                        "logpath": "/tmp/MO/SHARDED-RS/SHARD1/4401/mongod.log",
                         "ipv6": true,
                         "journal": true,
                         "logappend": true,
@@ -70,8 +65,7 @@
                 "id": "sh02-rs",
                 "members": [
                     { "procParams": {
-                        "dbpath": "/tmp/SHARDED-RS/SHARD2/4410",
-                        "logpath": "/tmp/SHARDED-RS/SHARD2/4410/mongod.log",
+                        "logpath": "/tmp/MO/SHARDED-RS/SHARD2/4410/mongod.log",
                         "ipv6": true,
                         "journal": true,
                         "logappend": true,
@@ -79,8 +73,7 @@
                         "bind_ip_all": true
                     } },
                     { "procParams": {
-                        "dbpath": "/tmp/SHARDED-RS/SHARD2/4411",
-                        "logpath": "/tmp/SHARDED-RS/SHARD2/4411/mongod.log",
+                        "logpath": "/tmp/MO/SHARDED-RS/SHARD2/4411/mongod.log",
                         "ipv6": true,
                         "journal": true,
                         "logappend": true,
@@ -93,7 +86,7 @@
     ], 
     "routers": [
         {
-            "logpath": "/tmp/SHARDED-RS/ROUTER/4430/mongod.log",
+            "logpath": "/tmp/MO/SHARDED-RS/ROUTER/4430/mongod.log",
             "ipv6": true,
             "logappend": true,
             "port": 4430,
