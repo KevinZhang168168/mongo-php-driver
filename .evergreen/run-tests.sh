@@ -18,17 +18,11 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 export REPORT_EXIT_STATUS=1
 
-if [ "$AUTH" != "noauth" ]; then
-  export MONGOC_TEST_USER="bob"
-  export MONGOC_TEST_PASSWORD="pwd123"
+if [ "$SSL" == "yes" ]; then
+   MONGODB_URI="${MONGODB_URI}/?ssl=true"
 fi
 
-if [ "$SSL" != "nossl" ]; then
-   export MONGOC_TEST_SSL_PEM_FILE="$DRIVERS_TOOLS/.evergreen/x509gen/client.pem"
-   export MONGOC_TEST_SSL_CA_FILE="$DRIVERS_TOOLS/.evergreen/x509gen/ca.pem"
-fi
-
-echo "Running $AUTH tests over $SSL, connecting to $MONGODB_URI"
+echo "Running $AUTH tests, connecting to $MONGODB_URI"
 
 # Run the tests, and store the results in a Evergreen compatible JSON results file
 case "$OS" in

@@ -501,6 +501,8 @@ tasks:
             TOPOLOGY: "standalone"
             CONFIG: "standalone-ssl"
         - func: "run tests"
+          vars:
+            SSL: "yes"
 
     - name: "test-standalone-old"
       tags: ["standalone"]
