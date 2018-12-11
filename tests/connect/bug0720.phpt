@@ -6,10 +6,6 @@ PHPC-720: Do not persist SSL streams to avoid SSL reinitialization errors
 <?php skip_if_not_ssl(); ?>
 --FILE--
 <?php
-require __DIR__ . "/../utils/basic-skipif.inc";
-skip_if_not_libmongoc_ssl();
-skip_if_not_ssl();
-
 require_once __DIR__ . "/../utils/basic.inc";
 
 $SSL_DIR = realpath(__DIR__ . '/../../scripts/ssl/');
