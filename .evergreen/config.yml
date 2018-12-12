@@ -724,11 +724,25 @@ buildvariants:
 
 - matrix_name: "mongo-40-php7"
   matrix_spec: {"os-php7": "*", "versions": ["4.0", "latest"], "php-versions": "7.2" }
+  exclude_spec:
+     - {"os-php7": "rhel74-zseries", "versions": ["4.0", "latest"], "php-versions": "7.2"}
   display_name: "${versions}/${php-versions} — ${os-php7}"
   tasks:
      - name: "test-standalone"
      - name: "test-standalone-auth"
      - name: "test-standalone-ssl"
+     - name: "test-replicaset"
+     - name: "test-replicaset-auth"
+     - name: "test-replicaset-single"
+     - name: "test-sharded"
+     - name: "test-sharded-rs"
+
+- matrix_name: "mongo-40-php7-nossl"
+  matrix_spec: {"os-php7": "rhel74-zseries", "versions": ["4.0", "latest"], "php-versions": "7.2"}
+  display_name: "${versions}/${php-versions} — ${os-php7}"
+  tasks:
+     - name: "test-standalone"
+     - name: "test-standalone-auth"
      - name: "test-replicaset"
      - name: "test-replicaset-auth"
      - name: "test-replicaset-single"
