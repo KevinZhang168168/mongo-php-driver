@@ -642,9 +642,6 @@ axes:
       - id: rhel71-power8
         display_name: "RHEL 7.1 Power 8"
         run_on: rhel71-power8-test
-      - id: rhel72-zseries
-        display_name: "RHEL 7.2 zSeries"
-        run_on: rhel72-zseries-test
   - id: os-php7
     display_name: OS
     values:
